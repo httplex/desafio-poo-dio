@@ -1,9 +1,6 @@
 package br.com.dio.desafio.dominio;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class Dev {
     private String nome;
@@ -17,20 +14,29 @@ public class Dev {
 
     public void progredir() {
         Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
-        if(conteudo.isPresent()){
+        if(conteudo.isPresent()) {
             this.conteudosConcluidos.add(conteudo.get());
             this.conteudosInscritos.remove(conteudo.get());
         } else {
-            System.err.println("Você não está matrículado em nenhum conteúdo!");
+            System.err.println("Você não está matriculado em nenhum conteúdo!");
         }
     }
 
-    public double calcularTotalXo() {
-        return this.conteudosConcluidos
+    public double calcularTotalXp() {
+        Iterator<Conteudo> iterator = this.conteudosConcluidos.iterator();
+        double soma = 0;
+        while(iterator.hasNext()){
+            double next = iterator.next().calcularXp();
+            soma += next;
+        }
+        return soma;
+
+        /*return this.conteudosConcluidos
                 .stream()
                 .mapToDouble(Conteudo::calcularXp)
-                .sum();
+                .sum();*/
     }
+
 
     public String getNome() {
         return nome;
